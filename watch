@@ -1,0 +1,68 @@
+#!/bin/bash
+#--------------------------------------------
+# 🚀 Hyperf Watch Scripts
+# 🚗 Make Happy to Coding
+# 👉 快乐的热更新工具，监听文件变化自动重启Hyperf
+
+# Base on fswatch @ https://github.com/emcrisostomo/fswatch
+# Author: hanicc@qq.com
+# Version: 20190730@beta1
+#
+# 用法示例:
+# 把watch文件放在项目根目录上
+# 如果没有安装fswatch，先安装fswatch：
+# MacOS用户: brew install fswatch
+# Linux用户: 自行编译安装fswatch
+# Docker用户: 都会用Docker了，你应该知道怎么做
+# 赋予脚本权限：
+# chmod +x ./watch
+# 执行监听程序：
+# ./watch
+# 执行监听程序并清除监听日志:
+# ./watch -c
+# 退出监听程序：
+# Control + C
+# 其它说明：
+# 监听日志/控制台日志在./runtime/watch.log
+# 退出监听程序会在控制台打印监听日志，方便debug
+# 脚本默认监听整个项目文件夹，且只监听文件后缀为.php或.env
+# 如果你希望只监听某个文件夹，请修改下面的变量DIR
+#--------------------------------------------
+
+# 监听目录
+DIR=./
+# 程序文件路径
+BIN=./bin/hyperf.php
+# 日志文件路径
+LOG=./runtime/watch.log
+# fswatch命令路径
+WATCH=fswatch
+# 指令第一个变量
+CMD=$1
+
+if [[ ${CMD} = "-c" ]]
+    then
+    rm ${LOG}
+    echo -e "🐵 Clean ${LOG} success!"
+fi
+
+ps -ef | grep php\ ${BIN}\ start | grep -v grep | awk '{print $2}' | xargs kill
+
+echo -e "🚀 Start @ $(date "+%Y-%m-%d %H:%M:%S")"
+echo -e "\n ================ \n 🚀 Start @ $(date "+%Y-%m-%d %H:%M:%S")\n ================ \n" >> ./runtime/watch.log
+
+nohup php ${BIN} start >> ${LOG} &
+
+${WATCH} ${DIR} | while read file
+do
+    EXT=${file##*.}
+    if [[ ${EXT} = "php" || ${EXT} = "env" ]]
+       then
+       ps -ef | grep php\ ${BIN}\ start | grep -v grep | awk '{print $2}' | xargs kill
+       echo -e "\n ================ \n 🔄 Restart @ $(date "+%Y-%m-%d %H:%M:%S")\n 👉 ${file} was modified\n ================ \n" >> ./runtime/watch.log
+       nohup php ${BIN} start >> ${LOG} &
+       echo "🔄 Restart @ $(date "+%Y-%m-%d %H:%M:%S")"
+     fi
+done
+
+cat ${LOG}
