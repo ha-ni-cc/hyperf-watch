@@ -2,27 +2,29 @@
 
 🚀 Hyperf Watch Scripts
 
-🚗 Make Happy to Coding
+😊 Make Coding More Happy
 
-👉 快乐的热更新工具，监听文件变化自动重启Hyperf
-
-Base on fswatch @ https://github.com/emcrisostomo/fswatch
+👉 监听文件变化自动重启Hyperf
 
 Author: hanicc@qq.com
 
-Version: 20190730@beta1
+Version: 20190730@beta5
 
-# 用法示例:
+## 使用说明:
 
-## 下载watch，把文件放在项目根目录上
+MacOS用户: 
 
-如果没有安装fswatch，先安装fswatch：
+需要安装fswatch
 
-MacOS用户: brew install fswatch
+brew install fswatch
 
-Linux用户: 自行编译安装fswatch
+Linux用户: 
 
-## 赋予脚本权限：
+自行编译fswatch https://github.com/emcrisostomo/fswatch
+
+由于能力有限，Linux的fswatch监听有问题未完美处理，暂不推荐使用，有空再研究基于inotify的实现方案
+
+### 下载watch，把文件放在项目根目录上并赋予脚本权限：
 
 chmod +x ./watch
 
@@ -30,20 +32,22 @@ chmod +x ./watch
 
 ./watch
 
-## 执行监听程序并清除监听日志:
+### 执行监听程序并清除监听日志:
 
 ./watch -c
 
-## 退出监听程序：
+### 更多指令请参照帮助指南
+
+./watch -h
+
+### 退出监听程序：
 
 Control + C
 
 # 其它说明：
 
-监听日志/控制台日志在./runtime/watch.log
+监听日志/控制台日志在./runtime/logs/watch.log
 
 退出监听程序会在控制台打印监听日志，方便debug
 
-脚本默认监听整个项目文件夹，且只监听文件后缀为.php或.env
-
-如果你希望只监听某个文件夹，请修改监听目录（DIR变量）
+脚本默认监听整个项目文件夹，且只监听文件后缀为.php或.env，如需自定义监听请参照帮助指南
