@@ -12,23 +12,24 @@ Version: 20190730@beta5
 
 ## 使用说明:
 
-MacOS用户: 
+MacOS用户:
 
-需要安装fswatch
+如果没有安装fswatch，需要先安装fswatch。
 
 brew install fswatch
 
 Linux用户: 
 
-自行编译fswatch https://github.com/emcrisostomo/fswatch
+自行编译fswatch 👉 https://github.com/emcrisostomo/fswatch
 
-由于能力有限，Linux的fswatch监听有问题未完美处理，暂不推荐使用，有空再研究基于inotify的实现方案
+由于能力有限，Linux基于fswatch监听有问题未完美处理，欢迎大神指示！
+所以暂不推荐使用，有空再研究基于inotify的实现方案。
 
 ### 下载watch，把文件放在项目根目录上并赋予脚本权限：
 
 chmod +x ./watch
 
-## 执行监听程序不清除监听日志：
+### 执行监听程序不清除监听日志：
 
 ./watch
 
@@ -44,7 +45,7 @@ chmod +x ./watch
 
 Control + C
 
-# 其它说明：
+## 其它说明：
 
 监听日志/控制台日志在./runtime/logs/watch.log
 
