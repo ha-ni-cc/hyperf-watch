@@ -10,9 +10,9 @@ Author: hanicc@qq.com
 
 ## 使用说明:
 
-🍎 MacOS用户:
+### 如果没有安装fswatch，需要先安装fswatch：
 
-如果没有安装fswatch，需要先安装fswatch。
+🍎 MacOS用户:
 
 brew install fswatch
 
