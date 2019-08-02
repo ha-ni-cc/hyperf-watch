@@ -8,23 +8,19 @@
 
 Author: hanicc@qq.com
 
-Version: 20190730@beta5
-
 ## 使用说明:
 
-MacOS用户:
+👍MacOS用户:
 
 如果没有安装fswatch，需要先安装fswatch。
 
 brew install fswatch
 
-Linux用户: 
+😭Linux用户: 
 
 自行编译fswatch 👉 https://github.com/emcrisostomo/fswatch
 
-由于能力有限，Linux基于fswatch监听有问题未完美处理，欢迎大神指示！
-
-所以暂不推荐使用，有空再研究基于inotify的实现方案。
+由于能力有限，Linux基于fswatch监听有问题未完美处理，所以暂不推荐使用。
 
 ### 下载watch，把文件放在项目根目录上并赋予脚本权限：
 
