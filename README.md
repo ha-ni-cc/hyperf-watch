@@ -10,13 +10,13 @@ Author: hanicc@qq.com
 
 ## 使用说明:
 
-👍 MacOS用户:
+🍎 MacOS用户:
 
 如果没有安装fswatch，需要先安装fswatch。
 
 brew install fswatch
 
-😭 Linux用户: 
+🤖 Linux用户: 
 
 自行编译fswatch 👉 https://github.com/emcrisostomo/fswatch
 
