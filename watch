@@ -86,7 +86,7 @@ echo -e "\n ================================ \n ${START}\n =====================
 nohup ${RUN_CMD} >> ${WATCH_LOG} 2>&1 &
 
 # 开始监听
-${FS_WATCH} -Ee"\.json|\.lock|.idea|vendor|runtime" --event IsFile ${WATCH_DIR} | while read file
+${FS_WATCH} -Ee "\.json|\.lock|.idea|vendor|runtime" --event IsFile ${WATCH_DIR} | while read file
 do
     # 如果匹配监听扩展名
     if [[ ${WATCH_EXT} =~ ${file##*.} ]];then
