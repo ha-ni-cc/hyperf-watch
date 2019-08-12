@@ -4,7 +4,7 @@
 # 😊 Make Coding More Happy
 # 👉 监听文件变化自动重启Hyperf
 # Author: hanicc@qq.com
-# Version: 20190730@beta6
+# Version: 20190812@beta7
 # GitHub: https://github.com/ha-ni-cc/hyperf-watch
 #--------------------------------------------
 
@@ -15,9 +15,23 @@ WATCH_EXT="php/env"
 # 运行命令
 RUN_CMD="php ./bin/hyperf.php start"
 # 日志路径
-WATCH_LOG="./runtime/logs/watch.log"
+WATCH_LOG="./runtime/watch.log"
+# PID路径
+WATCH_PID="./runtime/hyperf.pid"
 # fswatch路径
 FS_WATCH="fswatch"
+# 排除文件扩展名/文件夹(多个用|分割)
+EXCLUDE_REGX="\.json|\.lock|.idea|.git|vendor|runtime"
+# 结束进程
+function KillProcess()
+{
+    if [[ -f ${WATCH_PID} ]];then
+        PID=$(ps aux | awk '{print $2}'| grep -w $(cat ${WATCH_PID}))
+        if [[ ${PID} != "" ]];then
+            kill -9 ${PID}
+        fi
+    fi
+}
 
 # 帮助指南
 if [[ $1 = "-h" || $1 = "help" ]];then
@@ -36,7 +50,6 @@ fi
 
 # 检查fswatch是否安装
 command -v ${FS_WATCH} >/dev/null 2>&1 || { echo >&2 "[x] 请先安装fswatch"; exit 1;}
-
 
 # 是否设置监听目录
 if [[ $1 != "" && $1 != "-c" && $1 != "-e" && $1 != "-r" ]];then
@@ -66,17 +79,18 @@ echo -e "👉 Running Command {${RUN_CMD}}"
 
 # 是否需要清理监听日志
 if [[ $* =~ "-c" ]];then
+    # 判断目录是否存在
+    if [[ ! -d ${WATCH_LOG%/*} ]];then
+        mkdir ${WATCH_LOG%/*}
+    fi
     if [[ -f ${WATCH_LOG} ]];then
         rm -rf ${WATCH_LOG}
     fi
     echo -e "👉 Clean Watch Log Success"
 fi
 
-# 如果存在运行进程先杀进程
-PID=`ps -ef | grep "${RUN_CMD}" | grep -v grep | awk '{print $2}'`
-if [[ ${PID} != "" ]];then
-    kill -9 ${PID}
-fi
+# 结束已启动的进程
+KillProcess
 
 START="🚀 Start @ $(date "+%Y-%m-%d %H:%M:%S")"
 echo -e ${START}
@@ -86,12 +100,12 @@ echo -e "\n ================================ \n ${START}\n =====================
 nohup ${RUN_CMD} >> ${WATCH_LOG} 2>&1 &
 
 # 开始监听
-${FS_WATCH} -Ee "\.json|\.lock|.idea|vendor|runtime" --event IsFile ${WATCH_DIR} | while read file
+${FS_WATCH} -Ee ${EXCLUDE_REGX} --event IsFile ${WATCH_DIR} | while read file
 do
     # 如果匹配监听扩展名
     if [[ ${WATCH_EXT} =~ ${file##*.} ]];then
         # 重启进程
-        ps -ef | grep "${RUN_CMD}" | grep -v grep | awk '{print $2}' | xargs kill
+        KillProcess
         RESTART="🔄 Restart @ $(date "+%Y-%m-%d %H:%M:%S")"
         echo -e "\n ================================ \n ${RESTART}\n 👉 $file was modified.\n ================================ \n" >> ${WATCH_LOG}
         nohup ${RUN_CMD} >> ${WATCH_LOG} 2>&1 &
@@ -99,7 +113,7 @@ do
     fi
 done
 
-# 退出杀进程
+# 退出杀全部启动进程
 ps -ef | grep "${RUN_CMD}" | grep -v grep | awk '{print $2}' | xargs kill
 # 挂载监听日志
 cat ${WATCH_LOG}
