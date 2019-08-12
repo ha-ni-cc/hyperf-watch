@@ -44,7 +44,7 @@ Control + C
 
 ## 其它说明：
 
-监听日志/控制台日志在./runtime/logs/watch.log
+监听日志/控制台日志在./runtime/watch.log
 
 退出监听程序会在控制台打印监听日志，方便debug
 
