@@ -16,22 +16,10 @@ WATCH_EXT="php/env"
 RUN_CMD="php ./bin/hyperf.php start"
 # 日志路径
 WATCH_LOG="./runtime/watch.log"
-# PID路径
-WATCH_PID="./runtime/hyperf.pid"
 # fswatch路径
 FS_WATCH="fswatch"
-# 排除文件扩展名/文件夹(多个用|分割)
+# 排除文件扩展名/文件夹(正则表达式)
 EXCLUDE_REGX="\.json|\.lock|.idea|.git|vendor|runtime"
-# 结束进程
-function KillProcess()
-{
-    if [[ -f ${WATCH_PID} ]];then
-        PID=$(ps aux | awk '{print $2}'| grep -w $(cat ${WATCH_PID}))
-        if [[ ${PID} != "" ]];then
-            kill -9 ${PID}
-        fi
-    fi
-}
 
 # 帮助指南
 if [[ $1 = "-h" || $1 = "help" ]];then
@@ -90,7 +78,10 @@ if [[ $* =~ "-c" ]];then
 fi
 
 # 结束已启动的进程
-KillProcess
+PID=`ps -ef | grep "${RUN_CMD}" | grep -v grep | awk '{print $2}'`
+if [[ ${PID} != "" ]];then
+    kill -9 ${PID}
+fi
 
 START="🚀 Start @ $(date "+%Y-%m-%d %H:%M:%S")"
 echo -e ${START}
@@ -105,7 +96,7 @@ do
     # 如果匹配监听扩展名
     if [[ ${WATCH_EXT} =~ ${file##*.} ]];then
         # 重启进程
-        KillProcess
+       ps -ef | grep "${RUN_CMD}" | grep -v grep | awk '{print $2}' | xargs kill
         RESTART="🔄 Restart @ $(date "+%Y-%m-%d %H:%M:%S")"
         echo -e "\n ================================ \n ${RESTART}\n 👉 $file was modified.\n ================================ \n" >> ${WATCH_LOG}
         nohup ${RUN_CMD} >> ${WATCH_LOG} 2>&1 &
