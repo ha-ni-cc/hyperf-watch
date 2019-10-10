@@ -10,7 +10,9 @@ Author: hanicc@qq.com
 
 # 使用说明:
 
-## PHP版本，基于Swoole
+## PHP版本
+
+### 基于Swoole，定时扫描文件变化自动重启服务，性能较低，体验较好（可在控制台直接输出运行日志）。
 
 ### 下载watch.php，把文件放在项目根目录上
 
@@ -18,11 +20,13 @@ Author: hanicc@qq.com
 
 php watch.php
 
-### 启动监听并清除代理类：
+### 启动监听并清除代理类缓存：
 
 php watch.php -c
 
-## Shell版本，基于fswatch
+## Shell版本
+
+### 基于fswatch监听文件扩展，性能较好，体验一般（运行日志无法挂载在控制台上输出）。
 
 ### 如果没有安装fswatch，需要先安装fswatch：
 
