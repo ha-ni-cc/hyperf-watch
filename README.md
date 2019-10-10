@@ -22,7 +22,6 @@ php watch.php
 
 php watch.php -c
 
-
 ## Shell版本，基于fswatch
 
 ### 如果没有安装fswatch，需要先安装fswatch：
@@ -57,10 +56,10 @@ chmod +x ./watch.sh
 
 Control + C
 
-## 其它说明：
+### 其它说明：
 
-监听日志/控制台日志在./runtime/watch.log
+shell版本监听日志/控制台日志在./runtime/watch.log
 
-退出监听程序会在控制台打印监听日志，方便debug
+shell版本退出监听程序会在控制台打印监听日志，方便debug
 
-脚本默认监听整个项目文件夹，且只监听文件后缀为.php或.env，如需自定义监听请参照帮助指南
+shell版本脚本默认监听整个项目文件夹，且只监听文件后缀为.php或.env，如需自定义监听请参照帮助指南
