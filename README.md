@@ -1,4 +1,4 @@
-# hyperf-watch
+## hyperf-watch
 
 🚀 Hyperf Watch Scripts
 
@@ -8,13 +8,13 @@
 
 Author: hanicc@qq.com
 
-# 使用说明:
+## 使用说明:
 
-## PHP版本
+### PHP版本
 
 基于Swoole，定时扫描文件变化自动重启服务，性能较低，体验较好（可在控制台直接输出运行日志）。
 
-#### 下载watch.php，把文件放在项目根目录上
+#### 下载watch.php，把文件放在项目根目录上。
 
 #### 启动监听：
 
@@ -24,7 +24,7 @@ php watch.php
 
 php watch.php -c
 
-## Shell版本
+### Shell版本
 
 基于fswatch监听文件扩展，性能较好，体验一般（运行日志无法挂载在控制台上输出）。
 
@@ -52,15 +52,15 @@ chmod +x ./watch.sh
 
 ./watch.sh -c
 
-#### 更多指令请参照帮助指南
+#### 更多指令请参照帮助指南：
 
 ./watch.sh -h
 
-#### 退出监听程序：
+### 退出监听程序：
 
 Control + C
 
-#### 其它说明：
+### 其它说明：
 
 shell版本监听日志/控制台日志在./runtime/watch.log
 
