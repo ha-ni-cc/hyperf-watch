@@ -8,7 +8,23 @@
 
 Author: hanicc@qq.com
 
-## 使用说明:
+# 使用说明:
+
+## PHP版本，基于Swoole
+
+### 下载watch.php，把文件放在项目根目录上
+
+### 启动监听：
+
+php watch.php
+
+### 启动监听并清除代理类：
+
+php watch.php -c
+
+>---
+
+## Shell版本，基于fswatch
 
 ### 如果没有安装fswatch，需要先安装fswatch：
 
@@ -20,23 +36,23 @@ brew install fswatch
 
 自行编译fswatch 👉 https://github.com/emcrisostomo/fswatch
 
-由于能力有限，Linux基于fswatch监听有问题未完美处理，所以暂不推荐使用。
+由于能力有限，Linux基于fswatch监听有问题未完美处理，所以暂不推荐，建议使用watch.php。
 
-### 下载watch，把文件放在项目根目录上并赋予脚本权限：
+### 下载watch.sh，把文件放在项目根目录上并赋予脚本权限：
 
-chmod +x ./watch
+chmod +x ./watch.sh
 
 ### 执行监听程序不清除监听日志：
 
-./watch
+./watch.sh
 
 ### 执行监听程序并清除监听日志:
 
-./watch -c
+./watch.sh -c
 
 ### 更多指令请参照帮助指南
 
-./watch -h
+./watch.sh -h
 
 ### 退出监听程序：
 
