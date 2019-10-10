@@ -22,7 +22,6 @@ php watch.php
 
 php watch.php -c
 
->---
 
 ## Shell版本，基于fswatch
 
