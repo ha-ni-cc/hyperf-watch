@@ -1,6 +1,6 @@
 ## hyperf-watch
 
-🚀 Hyperf Watch Scripts
+🚀 Hyperf Watch HotReload Scripts
 
 😊 Make Coding More Happy
 
@@ -8,9 +8,11 @@
 
 Author: hanicc@qq.com
 
+Tips: 建议只在开发环境中使用，线上生产环境请用Docker（可以优雅热重启）。
+
 ## 使用说明:
 
-### PHP版本（全平台通用，Swoole>=4.4）
+### PHP版本（全平台通用，PHP>=7.2 && Swoole>=4.4）
 
 基于Swoole，定时扫描文件变化自动重启服务，性能一般，体验较好（可在控制台直接输出运行日志）。
 
@@ -23,6 +25,8 @@ php watch.php
 #### 启动监听并清除代理类缓存：
 
 php watch.php -c
+
+***
 
 ### Shell版本（仅推荐MacOS用户使用，需要安装fswatch扩展）
 
@@ -55,6 +59,8 @@ chmod +x ./watch.sh
 #### 更多指令请参照帮助指南：
 
 ./watch.sh -h
+
+***
 
 ### 退出监听程序：
 
