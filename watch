@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 /**
- * Watch HotLoad Script
+ * Hyperf Watch Hot Load Scripts
  * User: hanicc@qq.com
  * Date: 2019/10/10
  * Time: 下午17:30
