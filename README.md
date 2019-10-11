@@ -1,6 +1,6 @@
 ## hyperf-watch
 
-🚀 Hyperf Watch HotReload Scripts
+🚀 Hyperf Watch Hot Reload Scripts
 
 😊 Make Coding More Happy
 
