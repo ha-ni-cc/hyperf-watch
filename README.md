@@ -10,7 +10,7 @@ Author: hanicc@qq.com
 
 ## 使用说明:
 
-### PHP版本
+### PHP版本（全平台通用，Swoole>=4.4）
 
 基于Swoole，定时扫描文件变化自动重启服务，性能较低，体验较好（可在控制台直接输出运行日志）。
 
@@ -24,9 +24,9 @@ php watch.php
 
 php watch.php -c
 
-### Shell版本
+### Shell版本（仅推荐MacOS用户使用，需要安装fswatch扩展）
 
-基于fswatch监听文件扩展，性能较好，体验一般（运行日志无法挂载在控制台上输出）。
+基于fswatch扩展监听文件，性能较好，体验一般（运行日志无法挂载在控制台上输出）。
 
 #### 如果没有安装fswatch，需要先安装fswatch：
 
@@ -38,7 +38,7 @@ brew install fswatch
 
 自行编译fswatch 👉 https://github.com/emcrisostomo/fswatch
 
-由于能力有限，Linux基于fswatch监听有问题未完美处理，所以暂不推荐，建议使用watch.php。
+由于能力有限，Linux基于fswatch监听有问题未完美处理，所以暂不推荐，可以使用watch.php。
 
 #### 下载watch.sh，把文件放在项目根目录上并赋予脚本权限：
 
