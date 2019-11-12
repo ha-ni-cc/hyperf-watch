@@ -1,10 +1,10 @@
 #!/usr/bin/env php
-<?php declare(strict_types=1);
+<?php
 /**
  * Hyperf Watch Hot Reload Scripts
  * User: hanicc@qq.com
- * Date: 2019/10/10
- * Time: 下午17:30
+ * Date: 2019/11/12
+ * Time: 下午16:00
  * Modify From https://github.com/leocavalcante/dwoole/blob/master/dev/watch.php
  */
 
@@ -104,7 +104,8 @@ function change()
 function serve(Process $serve)
 {
     $opt = getopt('c');
-    if (isset($opt['c'])) echo exec(PHP . ' ' . ENTRY_POINT_FILE . ' di:init-proxy') . '..' . PHP_EOL;
+    # if (isset($opt['c'])) echo exec(PHP . ' ' . ENTRY_POINT_FILE . ' di:init-proxy') . '..' . PHP_EOL;
+    if (isset($opt['c'])) del_dir('runtime');
     $serve->exec(PHP, [ENTRY_POINT_FILE, 'start']);
 }
 
@@ -125,6 +126,31 @@ function php_files(string $dirname): array
     return array_map(function ($fileInfo) {
         return $fileInfo->getPathname();
     }, iterator_to_array($iterator));
+}
+
+function del_dir($path)
+{
+    if (is_dir($path)) {
+        //扫描一个目录内的所有目录和文件并返回数组
+        $dirs = scandir($path);
+        foreach ($dirs as $dir) {
+            //排除目录中的当前目录(.)和上一级目录(..)
+            if ($dir != '.' && $dir != '..') {
+                //如果是目录则递归子目录，继续操作
+                $sonDir = $path . '/' . $dir;
+                if (is_dir($sonDir)) {
+                    //递归删除
+                    del_dir($sonDir);
+                    //目录内的子目录和文件删除后删除空目录
+                    @rmdir($sonDir);
+                } else {
+                    //如果是文件直接删除
+                    @unlink($sonDir);
+                }
+            }
+        }
+        @rmdir($path);
+    }
 }
 
 class Filter extends RecursiveFilterIterator
