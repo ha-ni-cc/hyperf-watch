@@ -24,7 +24,7 @@ Tips: 建议只在开发环境中使用，线上生产环境请用Docker（可�
 
 php watch
 
-#### 启动监听并清除代理类缓存：
+#### 启动监听并删除runtime文件夹(缓存)：
 
 php watch -c
 
