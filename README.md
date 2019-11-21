@@ -18,9 +18,11 @@ Tips: 建议只在开发环境中使用。
 
 #### 下载watch
 
-把文件watch放在项目根目录上
+[下载地址->右键另存为](https://github.com/ha-ni-cc/hyperf-watch/raw/master/watch)
 
 #### 启动监听：
+
+请把文件watch放在项目根目录上，并在项目根目录下启动终端
 
 php watch
 
