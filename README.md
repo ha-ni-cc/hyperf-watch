@@ -8,17 +8,17 @@
 
 Author: hanicc@qq.com
 
-Tips: 建议只在开发环境中使用，线上生产环境请用Docker（可以优雅热重启）。
+Tips: 建议只在开发环境中使用。
 
 ## 使用说明:
 
 ### PHP版本（全平台通用，PHP>=7.2 && Swoole>=4.4）
 
-基于Swoole的Process/Timer/Event实现，定时扫描文件并监听文件变动重启服务，
+基于Swoole的Process/Timer/Event实现，定时扫描文件并监听文件变动重启服务
 
-不依赖其它扩展，性能表现一般，全平台可用，体验较好（可在控制台直接输出运行日志）。
+#### 下载watch
 
-#### 下载watch，把文件放在项目根目录上。
+把文件watch放在项目根目录上
 
 #### 启动监听：
 
@@ -32,7 +32,7 @@ php watch -c
 
 ### Shell版本（不再维护，仅推荐MacOS用户使用，需要安装fswatch扩展）
 
-基于fswatch扩展监听文件变化，性能上较好，体验一般（运行日志无法挂载在控制台上输出）。
+基于fswatch扩展监听文件变化，性能上较好，体验一般（运行日志无法挂载在控制台上输出）
 
 #### 如果没有安装fswatch，需要先安装fswatch：
 
@@ -44,7 +44,7 @@ brew install fswatch
 
 自行编译fswatch 👉 https://github.com/emcrisostomo/fswatch
 
-由于能力有限，Linux基于fswatch监听有问题未完美处理，所以暂不推荐，可以使用watch.php。
+由于能力有限，Linux基于fswatch监听有问题未完美处理，所以不推荐使用
 
 #### 下载watch.sh，把文件放在项目根目录上并赋予脚本权限：
 
