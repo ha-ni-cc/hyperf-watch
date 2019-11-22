@@ -21,6 +21,8 @@ const ENTRY_POINT_FILE = './bin/hyperf.php';
 # Scan Interval 扫描间隔（毫秒，默认2000）
 const SCAN_INTERVAL = 2000;
 
+const PID_PATH = './runtime/hyperf.pid';
+
 if (!function_exists('exec')) {
     echo "[x] 请取消禁用exec函数" . PHP_EOL;
     exit(1);
@@ -53,6 +55,12 @@ Timer::tick(SCAN_INTERVAL, 'watch');
 function start()
 {
     global $serve;
+
+    // 关闭监听进程后，重新打开进程
+    if ($pid = @file_get_contents(PID_PATH)) {
+        @posix_kill($pid);
+    }
+    
     $serve = new Process('serve', true);
     $serve->start();
     if (false === $serve->pid) {
