@@ -26,7 +26,7 @@ Tips: 建议只在开发环境中使用。
 
 php watch
 
-#### 启动监听并删除runtime文件夹(缓存)：
+#### 启动监听并删除代理类缓存(./runtime/container)：
 
 php watch -c
 
