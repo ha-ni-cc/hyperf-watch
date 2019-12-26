@@ -49,21 +49,24 @@ if (!file_exists(ENTRY_POINT_FILE)) {
     exit(1);
 }
 
-//监听脚本开启信号处理
-pcntl_async_signals(true);
-function sigHandler($signo)
-{
-    if (in_array($signo, [SIGHUP, SIGINT, SIGKILL, SIGTERM])) {
-        echo PHP_EOL . "😊 Exit the watching process successfully @ " . date('Y-m-d H:i:s') . PHP_EOL;
-        killOldProcess();
+// 如果安装了pcntl扩展
+if (extension_loaded('pcntl')) {
+    //监听脚本开启信号处理
+    pcntl_async_signals(true);
+    function sigHandler($signo)
+    {
+        if (in_array($signo, [SIGHUP, SIGINT, SIGKILL, SIGTERM])) {
+            echo PHP_EOL . "😊 Exit the watching process successfully @ " . date('Y-m-d H:i:s') . PHP_EOL;
+            killOldProcess();
+        }
+        exit(9);
     }
-    exit(9);
-}
 
-// 注册信号处理器
-pcntl_signal(SIGHUP, 'sigHandler');
-pcntl_signal(SIGINT, 'sigHandler');
-pcntl_signal(SIGTERM, 'sigHandler');
+    // 注册信号处理器
+    pcntl_signal(SIGHUP, 'sigHandler');
+    pcntl_signal(SIGINT, 'sigHandler');
+    pcntl_signal(SIGTERM, 'sigHandler');
+} else echo "❗️ Warning: The pcntl extension is recommended." . PHP_EOL;
 
 use Swoole\Process;
 use Swoole\Timer;
