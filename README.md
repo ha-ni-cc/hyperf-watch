@@ -16,9 +16,9 @@ Tips: 建议只在开发环境中使用。
 
 基于Swoole的Process/Timer/Event实现，定时扫描文件并监听文件变动重启服务
 
-#### 下载watch：
+#### 下载watch文件（为了使用方便，保存文件时建议不要保留扩展名）：
 
-[下载地址->右键另存为](https://github.com/ha-ni-cc/hyperf-watch/raw/master/watch)
+[下载地址->右键另存为](https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch)
 
 #### 启动监听：
 
