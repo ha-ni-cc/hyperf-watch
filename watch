@@ -1,11 +1,18 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * Hyperf Watch Hot Reload Scripts
+ * From: https://github.com/ha-ni-cc/hyperf-watch
  * User: hanicc@qq.com
  * Date: 2019/11/12
- * Time: 下午16:00
- * Modify From https://github.com/leocavalcante/dwoole/blob/master/dev/watch.php
+ * Time: 16:00
+ * Fork & Modify From: https://github.com/leocavalcante/dwoole/blob/master/dev/watch.php
+ * Usage:
+ * Open the terminal console in the project root directory and enter：php watch
+ * 在项目根目录下打开终端控制台，输入：php watch
+ * If you want to clean the /runtime/container cache, enter: php watch -c
+ * 如果你想要清除/runtime/container缓存，则输入：php watch -c
  */
 
 # PHP Bin File PHP程序所在路径（默认自动获取）
@@ -18,27 +25,45 @@ const WATCH_EXT = 'php,env';
 const EXCLUDE_DIR = ['vendor'];
 # Entry Point File 入口文件
 const ENTRY_POINT_FILE = './bin/hyperf.php';
+# Start Command 启动命令
+const START_COMMAND = [ENTRY_POINT_FILE, 'start'];
 # PID File Path PID文件路径
 const PID_FILE_PATH = './runtime/hyperf.pid';
 # Scan Interval 扫描间隔（毫秒，默认2000）
 const SCAN_INTERVAL = 2000;
 
 if (!function_exists('exec')) {
-    echo "[x] 请取消禁用exec函数" . PHP_EOL;
+    echo '[x] 请在php.ini配置中取消禁用exec方法' . PHP_EOL;
     exit(1);
 }
 
-define('PHP', PHP_BIN_FILE == 'which php' ? exec('which php') : PHP_BIN_FILE);
+define('PHP', PHP_BIN_FILE == 'which php' ? @exec('which php') : PHP_BIN_FILE);
 
-if (!file_exists(PHP)) {
-    echo "[x] PHP bin (" . PHP . ") 没有找到，请确认路径正确?" . PHP_EOL;
+if (!file_exists(PHP) || !is_executable(PHP)) {
+    echo '[x] PHP bin (" ' . PHP . ' ") 路径没有找到或无法执行，请确认路径正确?' . PHP_EOL;
     exit(1);
 }
 
 if (!file_exists(ENTRY_POINT_FILE)) {
-    echo "[x] 入口文件 (" . ENTRY_POINT_FILE . ") 没有找到，请确认文件存在?" . PHP_EOL;
+    echo '[x] 入口文件 ("' . ENTRY_POINT_FILE . '") 没有找到，请确认文件存在?' . PHP_EOL;
     exit(1);
 }
+
+//监听脚本开启信号处理
+pcntl_async_signals(true);
+function sigHandler($signo)
+{
+    if (in_array($signo, [SIGHUP, SIGINT, SIGKILL, SIGTERM])) {
+        echo PHP_EOL . "😊 Exit the watching process successfully @ " . date('Y-m-d H:i:s') . PHP_EOL;
+        killOldProcess();
+    }
+    exit(9);
+}
+
+// 注册信号处理器
+pcntl_signal(SIGHUP, 'sigHandler');
+pcntl_signal(SIGINT, 'sigHandler');
+pcntl_signal(SIGTERM, 'sigHandler');
 
 use Swoole\Process;
 use Swoole\Timer;
@@ -52,13 +77,21 @@ start();
 state();
 Timer::tick(SCAN_INTERVAL, 'watch');
 
+function killOldProcess()
+{
+    // pid存在则关闭存在的进程
+    if (file_exists(PID_FILE_PATH) && $pid = @file_get_contents(PID_FILE_PATH)) {
+        @posix_kill($pid, SIGKILL);
+    } else {
+        // 找不到pid，强杀.Master进程（不够优雅，可能会误杀其它进程名也为.Master的进程，T_T）
+        @exec("ps -ef | grep .Master | grep -v grep |awk '{print $2}'| xargs kill -9");
+    }
+}
+
 function start()
 {
-    // 关闭监听进程后，重新打开进程
-    if (file_exists(PID_FILE_PATH) &&  $pid = @file_get_contents(PID_FILE_PATH)) {
-        @posix_kill($pid);
-    }
-
+    // 杀旧进程
+    killOldProcess();
     global $serve;
     $serve = new Process('serve', true);
     $serve->start();
@@ -77,13 +110,13 @@ function start()
 function watch()
 {
     global $hashes;
-    foreach ($hashes as $pathname => $current_hash) {
-        if (!file_exists($pathname)) {
-            unset($hashes[$pathname]);
+    foreach ($hashes as $pathName => $currentHash) {
+        if (!file_exists($pathName)) {
+            unset($hashes[$pathName]);
             continue;
         }
-        $new_hash = file_hash($pathname);
-        if ($new_hash != $current_hash) {
+        $newHash = fileHash($pathName);
+        if ($newHash != $currentHash) {
             change();
             state();
             break;
@@ -94,8 +127,8 @@ function watch()
 function state()
 {
     global $hashes;
-    $files = php_files(WATCH_DIR);
-    $hashes = array_combine($files, array_map('file_hash', $files));
+    $files = phpFiles(WATCH_DIR);
+    $hashes = array_combine($files, array_map('fileHash', $files));
     $count = count($hashes);
     echo "📡 Watching $count files..." . PHP_EOL;
 }
@@ -112,11 +145,11 @@ function serve(Process $serve)
 {
     $opt = getopt('c');
     # if (isset($opt['c'])) echo exec(PHP . ' ' . ENTRY_POINT_FILE . ' di:init-proxy') . '..' . PHP_EOL;
-    if (isset($opt['c'])) del_dir('./runtime/container');
-    $serve->exec(PHP, [ENTRY_POINT_FILE, 'start']);
+    if (isset($opt['c'])) delDir('./runtime/container');
+    $serve->exec(PHP, START_COMMAND);
 }
 
-function file_hash(string $pathname): string
+function fileHash(string $pathname): string
 {
     $contents = file_get_contents($pathname);
     if (false === $contents) {
@@ -125,7 +158,7 @@ function file_hash(string $pathname): string
     return md5($contents);
 }
 
-function php_files(string $dirname): array
+function phpFiles(string $dirname): array
 {
     $directory = new RecursiveDirectoryIterator($dirname);
     $filter = new Filter($directory);
@@ -135,7 +168,7 @@ function php_files(string $dirname): array
     }, iterator_to_array($iterator));
 }
 
-function del_dir($path)
+function delDir($path)
 {
     if (is_dir($path)) {
         //扫描一个目录内的所有目录和文件并返回数组
@@ -147,7 +180,7 @@ function del_dir($path)
                 $sonDir = $path . '/' . $dir;
                 if (is_dir($sonDir)) {
                     //递归删除
-                    del_dir($sonDir);
+                    delDir($sonDir);
                     //目录内的子目录和文件删除后删除空目录
                     @rmdir($sonDir);
                 } else {
