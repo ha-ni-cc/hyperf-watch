@@ -16,9 +16,9 @@ PHP>=7.2 && Swoole>=4.4；在WSL2建议PHP开启pcntl扩展
 
 基于Swoole的Process/Timer/Event实现，定时扫描文件并监听文件变动重启服务
 
-#### 下载watch文件（为了使用方便，保存文件时建议不要保留后缀名）：
+#### 下载watch文件（为了使用方便，保存文件时建议不要保留扩展名）：
 
-[下载地址->请右键另存为，并去掉后缀名](https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch)
+[下载地址->请右键另存为，并去掉扩展名.xxx](https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch)
 
 #### 启动监听：
 
