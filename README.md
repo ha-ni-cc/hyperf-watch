@@ -30,6 +30,10 @@ php watch
 
 php watch -c
 
+#### 退出监听：
+
+Control + C
+
 ***
 
 ### Shell版本（不再维护，仅推荐MacOS用户使用，需要安装fswatch扩展）
@@ -65,10 +69,6 @@ chmod +x ./watch.sh
 ./watch.sh -h
 
 ***
-
-### 退出监听：
-
-Control + C
 
 ### 其它说明：
 
