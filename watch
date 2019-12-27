@@ -4,9 +4,7 @@
 /**
  * Hyperf Watch Hot Reload Scripts
  * From: https://github.com/ha-ni-cc/hyperf-watch
- * User: hanicc@qq.com
- * Date: 2019/11/12
- * Time: 16:00
+ * Author: hanicc@qq.com
  * Fork & Modify From: https://github.com/leocavalcante/dwoole/blob/master/dev/watch.php
  * Usage:
  * Open the terminal console in the project root directory and enter：php watch
@@ -49,7 +47,7 @@ if (!file_exists(ENTRY_POINT_FILE)) {
     exit(1);
 }
 
-// 如果安装了pcntl扩展
+// 如果安装了pcntl扩展（为了解决在PHPStorm使用了WSL中的PHP执行器创建的PHP Script在停止或重启监听脚本无法退出旧进程，从而导致的一些“灾难”）
 if (extension_loaded('pcntl')) {
     //监听脚本开启信号处理
     pcntl_async_signals(true);
@@ -61,12 +59,11 @@ if (extension_loaded('pcntl')) {
         }
         exit(9);
     }
-
     // 注册信号处理器
     pcntl_signal(SIGHUP, 'sigHandler');
     pcntl_signal(SIGINT, 'sigHandler');
     pcntl_signal(SIGTERM, 'sigHandler');
-} else echo "❗️ Warning: The pcntl extension is recommended." . PHP_EOL;
+} else echo "❗️Warning: The pcntl extension is recommended." . PHP_EOL;
 
 use Swoole\Process;
 use Swoole\Timer;
