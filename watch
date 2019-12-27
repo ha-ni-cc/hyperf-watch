@@ -63,7 +63,7 @@ if (extension_loaded('pcntl')) {
     pcntl_signal(SIGHUP, 'sigHandler');
     pcntl_signal(SIGINT, 'sigHandler');
     pcntl_signal(SIGTERM, 'sigHandler');
-} else echo "❗️Warning: The pcntl extension is recommended." . PHP_EOL;
+} else echo "❗️ Warning: The pcntl extension is recommended." . PHP_EOL;
 
 use Swoole\Process;
 use Swoole\Timer;
