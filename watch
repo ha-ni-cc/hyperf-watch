@@ -69,7 +69,7 @@ use Swoole\Process;
 use Swoole\Timer;
 use Swoole\Event;
 
-swoole_async_set(['enable_coroutine' => false]);
+swoole_async_set(['enable_coroutine' => false, 'log_level' => SWOOLE_LOG_INFO]);
 $hashes = [];
 $serve = null;
 echo "🚀 Start @ " . date('Y-m-d H:i:s') . PHP_EOL;
