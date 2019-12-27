@@ -8,11 +8,11 @@
 
 Author: hanicc@qq.com
 
-Tips: 建议只在开发环境中使用。
+Tips: 只建议在开发环境中使用，如果对您有帮助，请给项目一个Star，谢谢！
 
 ## 使用说明:
 
-PHP>=7.2 && Swoole>=4.4；在WSL2建议PHP开启pcntl扩展
+PHP>=7.2 && Swoole>=4.4（如果你是Windows系统并使用了WSL，建议PHP开启pcntl扩展）
 
 基于Swoole的Process/Timer/Event实现，定时扫描文件并监听文件变动重启服务
 
@@ -23,13 +23,22 @@ PHP>=7.2 && Swoole>=4.4；在WSL2建议PHP开启pcntl扩展
 #### 启动监听：
 
 请把文件watch放在项目根目录上，并在项目根目录下启动命令行终端
-
+ ```
 php watch
-
+```
 #### 启动监听并删除代理类缓存(./runtime/container)：
-
+```
 php watch -c
-
+```
 #### 退出监听：
-
+```
 Control + C
+```
+
+***
+
+## 捐赠：
+
+如果您喜欢这个脚本，要不给我来杯枸杞茶吧！请在打赏时备注您的称呼，方便致谢！
+
+![lELWmd.jpg](https://s2.ax1x.com/2019/12/27/lELWmd.jpg)
