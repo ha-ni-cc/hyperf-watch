@@ -41,4 +41,4 @@ Control + C
 
 如果您喜欢这个脚本，要不给我来杯枸杞茶吧！请在打赏时备注您的称呼，方便致谢！
 
-![lELWmd.jpg](https://s2.ax1x.com/2019/12/27/lELWmd.jpg)
+![qrc.jpg](https://i.loli.net/2019/12/28/vzB8bRGQJ9pilMa.jpg)
