@@ -12,7 +12,7 @@ Tips: 只建议在开发环境中使用，如果对您有帮助，请给项目�
 
 ## 使用说明:
 
-建议PHP>=7.2 && Swoole>=4.4
+建议PHP>=7.2 && Swoole>=4.4，php.ini需要开启exec方法
 
 基于Swoole的Process/Timer/Event实现，定时扫描文件并监听文件变动重启服务
 
@@ -45,7 +45,7 @@ php watch -c
 ```sh
 Control + C
 ```
-#### 可配置内容（打开watch文件，自行修改）
+#### 可配置内容（打开watch文件，自行修改）:
 ```php
 # PHP Bin File PHP程序所在路径（默认自动获取）
 const PHP_BIN_FILE = 'which php';
