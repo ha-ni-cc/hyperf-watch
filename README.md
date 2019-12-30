@@ -47,7 +47,7 @@ Control + C
 ```
 #### 可配置内容（打开watch文件，自行修改）
 ```php
- PHP Bin File PHP程序所在路径（默认自动获取）
+# PHP Bin File PHP程序所在路径（默认自动获取）
 const PHP_BIN_FILE = 'which php';
 # Watch Dir 监听目录（默认监听脚本所在的根目录）
 const WATCH_DIR = __DIR__ . '/';
