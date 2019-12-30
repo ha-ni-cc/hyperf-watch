@@ -45,7 +45,7 @@ php watch -c
 ```sh
 Control + C
 ```
-#### 可配置内容（打开watch文件，自行修改）:
+#### 默认配置（打开watch文件，可自行修改）:
 ```php
 # PHP Bin File PHP程序所在路径（默认自动获取）
 const PHP_BIN_FILE = 'which php';
