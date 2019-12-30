@@ -18,11 +18,9 @@ Tips: 只建议在开发环境中使用，如果对您有帮助，请给项目�
 
 #### 【Windows】
 
-下载watch文件（为了使用方便，保存文件时建议删去扩展名）：
+下载watch文件，把文件watch拷贝到项目根目录上：
 
 [下载地址->请右键另存为，并删去扩展名.txt](https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch)
-
-下载完成后，把文件watch放在项目根目录上，并在项目根目录下启动命令行终端
 
 #### 【MacOS or Linux】
 
