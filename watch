@@ -70,7 +70,7 @@ function killOldProcess()
 function forceKill($match = '.Master')
 {
     // 找不到pid，强杀.Master进程（不够优雅，可能会误杀其它进程名也为.Master的进程，T_T）
-    exec("ps -ef | grep '.Master' | grep -v grep |awk '{print $2}'| xargs kill -9 2>&1");
+    exec("ps -ef | grep '$match' | grep -v grep |awk '{print $2}'| xargs kill -9 2>&1");
 }
 
 function start()
