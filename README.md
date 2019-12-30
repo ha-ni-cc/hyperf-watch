@@ -27,26 +27,26 @@ Tips: 只建议在开发环境中使用，如果对您有帮助，请给项目�
 #### 【MacOS or Linux】
 
 在项目根目录下启动终端控制台：
-```
+```sh
 wget https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch
 ```
 
 #### 启动监听：
- ```
+ ```sh
 php watch
 ```
 
 #### 启动监听并删除代理类缓存(./runtime/container)：
-```
+```sh
 php watch -c
 ```
 
 #### 退出监听：
-```
+```sh
 Control + C
 ```
 #### 可配置内容（打开watch文件，自行修改）
-```
+```php
  PHP Bin File PHP程序所在路径（默认自动获取）
 const PHP_BIN_FILE = 'which php';
 # Watch Dir 监听目录（默认监听脚本所在的根目录）
