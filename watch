@@ -47,24 +47,6 @@ if (!file_exists(ENTRY_POINT_FILE)) {
     exit(1);
 }
 
-// 如果安装了pcntl扩展（为了解决在PHPStorm使用了WSL中的PHP执行器创建的PHP Script在停止或重启监听脚本无法退出旧进程，从而导致的一些“灾难”）
-if (extension_loaded('pcntl')) {
-    //监听脚本开启信号处理
-    pcntl_async_signals(true);
-    function sigHandler($signo)
-    {
-        if (in_array($signo, [SIGHUP, SIGINT, SIGKILL, SIGTERM])) {
-            echo PHP_EOL . "😊 Exit the watching process successfully @ " . date('Y-m-d H:i:s') . PHP_EOL;
-            killOldProcess();
-        }
-        exit(9);
-    }
-    // 注册信号处理器
-    pcntl_signal(SIGHUP, 'sigHandler');
-    pcntl_signal(SIGINT, 'sigHandler');
-    pcntl_signal(SIGTERM, 'sigHandler');
-} else echo "❗️ Warning: The pcntl extension is recommended." . PHP_EOL;
-
 use Swoole\Process;
 use Swoole\Timer;
 use Swoole\Event;
@@ -81,11 +63,14 @@ function killOldProcess()
 {
     // pid存在则关闭存在的进程
     if (file_exists(PID_FILE_PATH) && $pid = @file_get_contents(PID_FILE_PATH)) {
-        @posix_kill($pid, SIGKILL);
-    } else {
-        // 找不到pid，强杀.Master进程（不够优雅，可能会误杀其它进程名也为.Master的进程，T_T）
-        @exec("ps -ef | grep .Master | grep -v grep |awk '{print $2}'| xargs kill -9");
-    }
+        if(!@posix_kill($pid, SIGKILL)) forceKill();
+    } else forceKill();
+}
+
+function forceKill($match = '.Master')
+{
+    // 找不到pid，强杀.Master进程（不够优雅，可能会误杀其它进程名也为.Master的进程，T_T）
+    exec("ps -ef | grep '.Master' | grep -v grep |awk '{print $2}'| xargs kill -9 2>&1");
 }
 
 function start()
