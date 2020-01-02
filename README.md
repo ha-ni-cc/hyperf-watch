@@ -28,7 +28,7 @@ Tips: 只建议在开发环境中使用，如果对您有帮助，请给项目�
 
 在项目根目录下启动终端控制台：
 ```sh
-wget https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch
+wget -O watch https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch
 ```
 
 #### 启动监听：
