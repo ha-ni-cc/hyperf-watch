@@ -22,11 +22,11 @@ const WATCH_EXT = 'php,env';
 # Exclude Dir 排除目录（不监听的目录，数组形式)
 const EXCLUDE_DIR = ['vendor'];
 # Entry Point File 入口文件
-const ENTRY_POINT_FILE = './bin/hyperf.php';
+const ENTRY_POINT_FILE = __DIR__ . '/bin/hyperf.php';
 # Start Command 启动命令
 const START_COMMAND = [ENTRY_POINT_FILE, 'start'];
 # PID File Path PID文件路径
-const PID_FILE_PATH = './runtime/hyperf.pid';
+const PID_FILE_PATH = __DIR__ . '/runtime/hyperf.pid';
 # Scan Interval 扫描间隔（毫秒，默认2000）
 const SCAN_INTERVAL = 2000;
 
@@ -35,7 +35,7 @@ if (!function_exists('exec')) {
     exit(1);
 }
 
-define('PHP', PHP_BIN_FILE == 'which php' ? exec('which php') : PHP_BIN_FILE);
+define('PHP', PHP_BIN_FILE == 'which php' ? @exec('which php') : PHP_BIN_FILE);
 
 if (!file_exists(PHP) || !is_executable(PHP)) {
     echo '[x] PHP bin (" ' . PHP . ' ") 路径没有找到或无法执行，请确认路径正确?' . PHP_EOL;
@@ -58,19 +58,21 @@ echo "🚀 Start @ " . date('Y-m-d H:i:s') . PHP_EOL;
 start();
 state();
 Timer::tick(SCAN_INTERVAL, 'watch');
-
 function killOldProcess()
 {
     // pid存在则关闭存在的进程
     if (file_exists(PID_FILE_PATH) && $pid = @file_get_contents(PID_FILE_PATH)) {
-        if(!@posix_kill($pid)) forceKill();
+        if (!@posix_kill($pid)) forceKill();
     } else forceKill();
 }
 
 function forceKill($match = '.Master')
 {
-    // 找不到pid，强杀.Master进程（不够优雅，可能会误杀其它进程名也为.Master的进程，T_T）
-    exec("ps -ef | grep '$match' | grep -v grep |awk '{print $2}'| xargs kill -9 2>&1");
+    // 适配MacOS
+    if (PHP_OS == 'Darwin') $match = ENTRY_POINT_FILE;
+    $command = "ps -ef | grep '$match' | grep -v grep | awk '{print $2}' | xargs kill -9 2>&1";
+    // 找不到pid，强杀进程
+    exec($command);
 }
 
 function start()
