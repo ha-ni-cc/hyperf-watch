@@ -35,7 +35,7 @@ if (!function_exists('exec')) {
     exit(1);
 }
 
-define('PHP', PHP_BIN_FILE == 'which php' ? @exec('which php') : PHP_BIN_FILE);
+define('PHP', PHP_BIN_FILE == 'which php' ? exec('which php') : PHP_BIN_FILE);
 
 if (!file_exists(PHP) || !is_executable(PHP)) {
     echo '[x] PHP bin (" ' . PHP . ' ") 路径没有找到或无法执行，请确认路径正确?' . PHP_EOL;
@@ -63,7 +63,7 @@ function killOldProcess()
 {
     // pid存在则关闭存在的进程
     if (file_exists(PID_FILE_PATH) && $pid = @file_get_contents(PID_FILE_PATH)) {
-        if(!@posix_kill($pid, SIGKILL)) forceKill();
+        if(!@posix_kill($pid)) forceKill();
     } else forceKill();
 }
 
