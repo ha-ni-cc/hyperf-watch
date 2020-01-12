@@ -56,11 +56,11 @@ const WATCH_EXT = 'php,env';
 # Exclude Dir 排除目录（不监听的目录，数组形式)
 const EXCLUDE_DIR = ['vendor'];
 # Entry Point File 入口文件
-const ENTRY_POINT_FILE = './bin/hyperf.php';
+const ENTRY_POINT_FILE = __DIR__ . '/bin/hyperf.php';
 # Start Command 启动命令
 const START_COMMAND = [ENTRY_POINT_FILE, 'start'];
 # PID File Path PID文件路径
-const PID_FILE_PATH = './runtime/hyperf.pid';
+const PID_FILE_PATH = __DIR__ . '/runtime/hyperf.pid';
 # Scan Interval 扫描间隔（毫秒，默认2000）
 const SCAN_INTERVAL = 2000;
 ```
