@@ -5,7 +5,6 @@
  * Hyperf Watch Hot Reload Scripts
  * From: https://github.com/ha-ni-cc/hyperf-watch
  * Author: hanicc@qq.com
- * Fork & Modify From: https://github.com/leocavalcante/dwoole/blob/master/dev/watch.php
  * Usage:
  * Open the terminal console in the project root directory and enter：php watch
  * 在项目根目录下打开终端控制台，输入：php watch
@@ -20,7 +19,7 @@ const WATCH_DIR = __DIR__ . '/';
 # Watch Ext 监听扩展名（多个可用英文逗号隔开）
 const WATCH_EXT = 'php,env';
 # Exclude Dir 排除目录（不监听的目录，数组形式)
-const EXCLUDE_DIR = ['vendor'];
+const EXCLUDE_DIR = ['vendor', 'public'];
 # Entry Point File 入口文件
 const ENTRY_POINT_FILE = __DIR__ . '/bin/hyperf.php';
 # Start Command 启动命令
