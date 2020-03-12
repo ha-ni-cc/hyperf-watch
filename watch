@@ -46,6 +46,17 @@ if (!file_exists(ENTRY_POINT_FILE)) {
     exit(1);
 }
 
+# 加载env
+$content = @file_get_contents('.env');
+$values = array_filter(preg_split("/(\r\n|\n|\r)/", $content));
+foreach($values as $val) {
+if(substr($val,0,1) === '#') {
+    continue;
+}
+list($name,$value) = explode('=',$val);
+$_ENV[$name] = $value;
+}
+
 use Swoole\Process;
 use Swoole\Timer;
 use Swoole\Event;
@@ -65,8 +76,11 @@ function killOldProcess()
     } else forceKill();
 }
 
-function forceKill($match = '.Master')
+function forceKill($match = '')
 {
+    if(!$match) {
+        $match = @$_ENV['APP_NAME'].'.Master';
+    }
     // 适配MacOS
     if (PHP_OS == 'Darwin') $match = ENTRY_POINT_FILE;
     $command = "ps -ef | grep '$match' | grep -v grep | awk '{print $2}' | xargs kill -9 2>&1";
