@@ -19,7 +19,7 @@ const WATCH_DIR = __DIR__ . '/';
 # Watch Ext 监听扩展名（多个可用英文逗号隔开）
 const WATCH_EXT = 'php,env';
 # Exclude Dir 排除目录（不监听的目录，数组形式)
-const EXCLUDE_DIR = ['vendor', 'public'];
+const EXCLUDE_DIR = ['vendor', 'runtime', 'public'];
 # Entry Point File 入口文件
 const ENTRY_POINT_FILE = __DIR__ . '/bin/hyperf.php';
 # Start Command 启动命令
@@ -34,7 +34,7 @@ if (!function_exists('exec')) {
     exit(1);
 }
 
-define('PHP', PHP_BIN_FILE == 'which php' ? @exec('which php') : PHP_BIN_FILE);
+define('PHP', PHP_BIN_FILE == 'which php' ? exec('which php') : PHP_BIN_FILE);
 
 if (!file_exists(PHP) || !is_executable(PHP)) {
     echo '[x] PHP bin (" ' . PHP . ' ") 路径没有找到或无法执行，请确认路径正确?' . PHP_EOL;
@@ -49,12 +49,12 @@ if (!file_exists(ENTRY_POINT_FILE)) {
 # 加载env
 $content = @file_get_contents('.env');
 $values = array_filter(preg_split("/(\r\n|\n|\r)/", $content));
-foreach($values as $val) {
-if(substr($val,0,1) === '#') {
-    continue;
-}
-list($name,$value) = explode('=',$val);
-$_ENV[$name] = $value;
+foreach ($values as $val) {
+    if (substr($val, 0, 1) === '#') {
+        continue;
+    }
+    list($name, $value) = explode('=', $val);
+    $_ENV[$name] = $value;
 }
 
 use Swoole\Process;
@@ -68,6 +68,7 @@ echo "🚀 Start @ " . date('Y-m-d H:i:s') . PHP_EOL;
 start();
 state();
 Timer::tick(SCAN_INTERVAL, 'watch');
+
 function killOldProcess()
 {
     // pid存在则关闭存在的进程
@@ -78,8 +79,8 @@ function killOldProcess()
 
 function forceKill($match = '')
 {
-    if(!$match) {
-        $match = @$_ENV['APP_NAME'].'.Master';
+    if (!$match) {
+        $match = @$_ENV['APP_NAME'] . '.Master';
     }
     // 适配MacOS
     if (PHP_OS == 'Darwin') $match = ENTRY_POINT_FILE;
