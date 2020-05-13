@@ -100,7 +100,12 @@ function start()
         echo swoole_strerror(swoole_errno()) . PHP_EOL;
         exit(1);
     }
-    Event::add($serve->pipe, function ($pipe) use (&$serve) {
+    addEvent($serve);
+}
+
+function addEvent($serve)
+{
+    Event::add($serve->pipe, function () use (&$serve) {
         $message = @$serve->read();
         if (!empty($message)) {
             echo $message;

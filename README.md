@@ -64,11 +64,3 @@ const PID_FILE_PATH = __DIR__ . '/runtime/hyperf.pid';
 # Scan Interval 扫描间隔（毫秒，默认2000）
 const SCAN_INTERVAL = 2000;
 ```
-
-***
-
-## 捐赠：
-
-如果您喜欢这个脚本，要不给我来杯枸杞茶吧！请在打赏时备注您的称呼，方便致谢！
-
-![qrc.jpg](https://i.loli.net/2019/12/28/vzB8bRGQJ9pilMa.jpg)
