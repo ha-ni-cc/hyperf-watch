@@ -157,7 +157,7 @@ function serve(Process $serve)
 
 function fileHash(string $pathname): string
 {
-    $contents = file_get_contents($pathname);
+    $contents = @file_get_contents($pathname);
     if (false === $contents) {
         return 'deleted';
     }
