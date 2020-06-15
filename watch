@@ -28,6 +28,12 @@ const START_COMMAND = [ENTRY_POINT_FILE, 'start'];
 const PID_FILE_PATH = __DIR__ . '/runtime/hyperf.pid';
 # Scan Interval 扫描间隔（毫秒，默认2000）
 const SCAN_INTERVAL = 2000;
+# Console Color 控制台颜色
+const CONSOLE_COLOR_DEFAULT = "\033[0m";
+const CONSOLE_COLOR_RED = "\033[0;31m";
+const CONSOLE_COLOR_GREEN = "\033[0;32m";
+const CONSOLE_COLOR_YELLOW = "\033[0;33m";
+const CONSOLE_COLOR_BLUE = "\033[0;34m";
 
 if (!function_exists('exec')) {
     echo '[x] 请在php.ini配置中取消禁用exec方法' . PHP_EOL;
@@ -64,7 +70,8 @@ use Swoole\Event;
 swoole_async_set(['enable_coroutine' => false, 'log_level' => SWOOLE_LOG_INFO]);
 $hashes = [];
 $serve = null;
-echo "🚀 Start @ " . date('Y-m-d H:i:s') . PHP_EOL;
+
+echo CONSOLE_COLOR_YELLOW . "🚀 Start @ " . date('Y-m-d H:i:s') . PHP_EOL;
 start();
 state();
 Timer::tick(SCAN_INTERVAL, 'watch');
@@ -108,7 +115,20 @@ function addEvent($serve)
     Event::add($serve->pipe, function () use (&$serve) {
         $message = @$serve->read();
         if (!empty($message)) {
-            echo $message;
+            $debug = strpos($message, '[DEBUG]') !== false;
+            $info = strpos($message, '[INFO]') !== false;
+            $warn = strpos($message, '[WARNING]') !== false;
+            $error = strpos($message, '[ERROR]') !== false;
+            if ($debug) {
+                echo CONSOLE_COLOR_BLUE . $message;
+            } elseif ($info) {
+                echo CONSOLE_COLOR_GREEN . $message;
+            } elseif ($warn) {
+                echo CONSOLE_COLOR_YELLOW . $message;
+            } elseif ($error) {
+                echo CONSOLE_COLOR_RED . $message;
+            } else echo CONSOLE_COLOR_DEFAULT . $message;
+            echo CONSOLE_COLOR_DEFAULT;
         }
     });
 }
@@ -136,13 +156,13 @@ function state()
     $files = phpFiles(WATCH_DIR);
     $hashes = array_combine($files, array_map('fileHash', $files));
     $count = count($hashes);
-    echo "📡 Watching $count files..." . PHP_EOL;
+    echo CONSOLE_COLOR_YELLOW . "📡 Watching $count files..." . PHP_EOL;
 }
 
 function change()
 {
     global $serve;
-    echo "🔄 Restart @ " . date('Y-m-d H:i:s') . PHP_EOL;
+    echo CONSOLE_COLOR_YELLOW . "🔄 Restart @ " . date('Y-m-d H:i:s') . PHP_EOL;
     Process::kill($serve->pid);
     start();
 }
@@ -157,7 +177,7 @@ function serve(Process $serve)
 
 function fileHash(string $pathname): string
 {
-    $contents = @file_get_contents($pathname);
+    $contents = file_get_contents($pathname);
     if (false === $contents) {
         return 'deleted';
     }
