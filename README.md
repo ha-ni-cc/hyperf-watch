@@ -10,6 +10,8 @@ Author: hanicc@qq.com
 
 Tips: 只建议在开发环境中使用，如果对您有帮助，请给项目一个Star，谢谢！
 
+Gitee仓库: https://gitee.com/hanicc/hyperf-watch
+
 ## 使用说明:
 
 建议PHP>=7.2 && Swoole>=4.4，php.ini需要开启exec方法
@@ -22,13 +24,13 @@ Tips: 只建议在开发环境中使用，如果对您有帮助，请给项目�
 
 下载完成后请拷贝到项目根目录上：
 
-[下载地址->请右键另存为，并删去扩展名.txt](https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch)
+[下载地址->请右键另存为，并删去扩展名.txt](https://gitee.com/hanicc/hyperf-watch/raw/master/watch)
 
 【MacOS or Linux】
 
 在项目根目录下启动终端控制台：
 ```sh
-wget -O watch https://raw.githubusercontent.com/ha-ni-cc/hyperf-watch/master/watch
+wget -O watch https://gitee.com/hanicc/hyperf-watch/raw/master/watch
 ```
 
 #### 启动监听：
